@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -11,7 +13,8 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        $booking = Booking::all();
+        return view('booking.index', compact('booking'));
     }
 
     /**
@@ -19,7 +22,8 @@ class BookingController extends Controller
      */
     public function create()
     {
-        //
+        $tickets = Ticket::all();
+        return view('booking.create', compact('tickets'));
     }
 
     /**
@@ -27,7 +31,16 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $ticket = Ticket::find($request->ticket_id);
+
+        Booking::create([
+            'ticket_id' => $request->ticket_id,
+            'kuantitas' => $request->kuantitas,
+            'total_harga' => $ticket->harga * $request->kuantitas,
+            'status' => 'pending',
+         ]);
+
+        return redirect('/booking');
     }
 
     /**

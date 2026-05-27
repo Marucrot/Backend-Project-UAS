@@ -34,6 +34,7 @@ class TicketController extends Controller
             'nama_konser' => $request->nama_konser,
             'harga' => $request->harga,
             'stock' => $request->stock,
+            'tipe_ticket' => $request->tipe_ticket,
         ]);
 
         return redirect('/tickets');
