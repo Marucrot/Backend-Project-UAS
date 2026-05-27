@@ -5,8 +5,10 @@
 @foreach($tickets as $ticket)
     <p>
         {{ $ticket->nama_konser }} -
+        {{ $ticket->tipe_ticket }} -
         Rp{{ number_format($ticket->harga, 0, ',', '.') }}
         Stock: {{ $ticket->stock }}
+
     </p>
 
     <form action="/tickets/{{ $ticket->id }}" method="POST">

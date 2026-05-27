@@ -8,7 +8,8 @@ class Ticket extends Model{
     protected $fillable = [
     'nama_konser',
     'harga',
-    'stock'
+    'stock',
+    'tipe_ticket'
     ];
 }
 ?>

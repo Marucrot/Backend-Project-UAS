@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('event_id')->nullable();
             $table->string('nama_konser');
+            $table->string('tipe_ticket');
             $table->decimal('harga', 10, 2);
             $table->integer('stock');
             $table->timestamps();
