@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Venue;
 
 class VenueController extends Controller
 {
@@ -42,18 +43,20 @@ class VenueController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        return view('venues.show', compact('venue'));
-    }
+public function show(string $id)
+{
+    $venue = Venue::findOrFail($id);
+    return view('venues.show', compact('venue'));
+}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        return view('venues.edit', compact('venue'));
-    }
+public function edit(string $id)
+{
+    $venue = Venue::findOrFail($id);
+    return view('venues.edit', compact('venue'));
+}
 
     /**
      * Update the specified resource in storage.
