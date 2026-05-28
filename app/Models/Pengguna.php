@@ -12,4 +12,8 @@ class Pengguna extends Model
         'password',
         'nik',
     ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 }
