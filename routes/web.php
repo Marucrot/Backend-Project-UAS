@@ -8,7 +8,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\CustomerServiceController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('pengguna.login');
 });
 
 Route::resource('tickets', TicketController::class);
