@@ -8,6 +8,8 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\CustomerServiceController;
 use App\Http\Controllers\ConcertController;
 use App\Http\Controllers\ArtistController;
+use App\Http\Controllers\VenueController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return redirect()->route('pengguna.login');
@@ -31,4 +33,6 @@ Route::resource('schedule', ScheduleController::class);
 Route::resource('customer-service', CustomerServiceController::class);
 Route::resource('concerts', ConcertController::class);
 Route::resource('artists', ArtistController::class);
+Route::resource('venues', VenueController::class);
+Route::resource('reviews', ReviewController::class);
 ?>
