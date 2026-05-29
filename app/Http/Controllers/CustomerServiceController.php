@@ -12,7 +12,8 @@ class CustomerServiceController extends Controller
      */
     public function index()
     {
-        //
+    $customerServices = CustomerService::all();
+        return view('customer_service.index', compact('customerServices'));
     }
 
     /**

@@ -16,6 +16,8 @@ Route::get('/', function () {
     return redirect()->route('pengguna.login');
 });
 
+Route::get('/customer-service', [CustomerServiceController::class, 'index'])->name('customer-service.index');
+
 Route::get('/register', [PenggunaController::class, 'register'])->name('pengguna.register');
 Route::post('/register', [PenggunaController::class, 'prosesRegister'])->name('pengguna.prosesRegister');
 
