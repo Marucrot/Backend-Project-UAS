@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('payment_details', function (Blueprint $table) {
             $table->id();
+            $table->integer('payment_id');
+            $table->string('nama_bank');
+            $table->string('nomor_rekening');
+            $table->string('nama_pengirim');
             $table->timestamps();
         });
     }
