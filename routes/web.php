@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PenggunaController;
@@ -13,8 +15,12 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
-    return redirect()->route('pengguna.login');
+    return redirect()->route('home');
 });
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/riwayat-pemesanan', [RiwayatController::class, 'index'])->name('riwayat.index');
 
 Route::get('/customer-service', [CustomerServiceController::class, 'index'])->name('customer-service.index');
 
