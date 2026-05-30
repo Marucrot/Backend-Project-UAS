@@ -43,7 +43,7 @@ class PaymentController extends Controller
 
         $booking->update(['status' => 'paid']);
 
-        return redirect('/payments/' . $payment->id);
+        return redirect('/payment-details/create?payment_id=' . $payment->id);
     }
 
     /**
