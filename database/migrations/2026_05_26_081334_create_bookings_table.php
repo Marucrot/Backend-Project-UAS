@@ -12,13 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bookings', function (Blueprint $table) {
-             $table->integer('user_id')->nullable();
-             $table->integer('ticket_id')->nullable();
-             
-             $table->integer('kuantitas');
-             $table->decimal('total_harga',10,2);
-             $table->string('status')->default('pending');
-             $table->timestamps();
+            $table->id();
+            $table->integer('user_id')->nullable();
+            $table->integer('ticket_id')->nullable();
+
+            $table->integer('kuantitas');
+            $table->decimal('total_harga',10,2);
+
+            $table->string('status')->default('pending');
+
+            $table->timestamps();
         });
     }
 

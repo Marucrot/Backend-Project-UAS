@@ -34,11 +34,18 @@ class BookingController extends Controller
         $ticket = Ticket::find($request->ticket_id);
 
         Booking::create([
-            'ticket_id' => $request->ticket_id,
+            'user_id' => auth()->id(),
+            'ticket_id' => $ticket->id,
+            'nama_konser' => $ticket->nama_konser,
+            'nama_artis' => $ticket->nama_artis,
+            'venue' => $ticket->venue,
+            'tanggal_konser' => $ticket->tanggal_konser,
+            'jam_konser' => $ticket->jam_konser,
+            'tipe_ticket' => $ticket->tipe_ticket,
             'kuantitas' => $request->kuantitas,
             'total_harga' => $ticket->harga * $request->kuantitas,
             'status' => 'pending',
-         ]);
+        ]);
 
         return redirect('/booking');
     }

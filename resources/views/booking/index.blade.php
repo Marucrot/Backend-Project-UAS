@@ -3,7 +3,11 @@
 @foreach($booking as $booking)
     <p>
         Nama Konser: {{ $booking->ticket->nama_konser }} <br>
-        Tipe Tiket: {{ $booking->ticket->tipe_ticket }}<br>
+        Nama Artis: {{ $booking->ticket->nama_artis }} <br>
+        Venue: {{ $booking->ticket->venue?->nama_venue }}<br>
+        Tanggal Konser: {{ $booking->ticket->tanggal_konser }} <br>
+        Jam Konser: {{ substr($booking->ticket->jam_konser, 0, 5) }} <br>git
+        Tipe Tiket: {{ $booking->ticket->tipe_ticket }} <br>
         Ticket ID: {{ $booking->ticket_id }} <br>
         Jumlah Tiket: {{ $booking->kuantitas }} <br>
         Total:
