@@ -52,6 +52,12 @@ class PaymentController extends Controller
     public function show(string $id)
     {
         $payment = Payment::findOrFail($id);
+
+        if ($payment->booking->user_id !== session('pengguna_id'))
+        {
+        abort(403);
+        }
+
         return view('payments.show', compact('payment'));
     }
 
