@@ -7,7 +7,11 @@
         @foreach($tickets as $ticket)
             <option value="{{ $ticket->id }}">
                 {{ $ticket->nama_konser }} -
-                {{ $ticket->tipe_ticket}}-
+                {{ $ticket->nama_artis }} -
+                {{ $ticket->venue?->nama_venue }} -
+                {{ $ticket->tanggal_konser }} -
+                {{ $ticket->jam_konser }} -
+                {{ $ticket->tipe_ticket }} -
                 Rp{{ number_format($ticket->harga, 0, ',', '.') }}
             </option>
         @endforeach

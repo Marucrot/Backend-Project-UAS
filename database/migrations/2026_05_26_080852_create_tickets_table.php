@@ -13,11 +13,23 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->integer('event_id')->nullable();
+
             $table->string('nama_konser');
-            $table->string('tipe_ticket');
-            $table->decimal('harga', 10, 2);
+            $table->string('nama_artis');
+
+            $table->foreignId('venue_id')
+                ->nullable()
+                ->constrained('venues')
+                ->nullOnDelete();
+
+            $table->date('tanggal_konser');
+            substr($booking->ticket->jam_konser, 0, 5);
+
+            $table->integer('harga');
             $table->integer('stock');
+
+            $table->string('tipe_ticket');
+
             $table->timestamps();
         });
     }
