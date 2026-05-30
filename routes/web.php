@@ -13,6 +13,7 @@ use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\VenueController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentDetailController;
 
 Route::get('/', function () {
     return redirect()->route('home');
@@ -45,4 +46,6 @@ Route::resource('artists', ArtistController::class);
 Route::resource('venues', VenueController::class);
 Route::resource('reviews', ReviewController::class);
 Route::resource('payments', PaymentController::class);
+Route::resource('payment-details', PaymentDetailController::class);
+Route::get('/payment-details/{payment_id}/show-by-payment', [PaymentDetailController::class, 'showByPayment']);
 ?>
