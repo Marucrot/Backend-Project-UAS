@@ -1,9 +1,5 @@
 <h1>Daftar Payment</h1>
 
-<a href="/payments/create">Tambah Payment</a>
-
-<br><br>
-
 @foreach($payments as $payment)
     <p>
         Booking ID: {{ $payment->booking_id }} <br>
@@ -12,6 +8,7 @@
         Status: {{ $payment->status }}
     </p>
 
+    <a href="/payments/{{ $payment->id }}">Detail</a>
     <a href="/payments/{{ $payment->id }}/edit">Edit</a>
 
     <form action="/payments/{{ $payment->id }}" method="POST" style="display:inline;">

@@ -15,5 +15,11 @@
         Status: {{ $booking->status }}
     </p>
 
+    @if($booking->status == 'pending')
+        <a href="/payments/create?booking_id={{ $booking->id }}">Bayar Sekarang</a>
+    @else
+        <span>Sudah Dibayar</span>
+    @endif
+
     <hr>
 @endforeach

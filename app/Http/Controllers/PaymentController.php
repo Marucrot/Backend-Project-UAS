@@ -20,10 +20,11 @@ class PaymentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $bookings = Booking::all();
-        return view('payments.create', compact('bookings'));
+        $booking_id = $request->query('booking_id');
+        $booking = $booking_id ? Booking::findOrFail($booking_id) : null;
+        return view('payments.create', compact('booking'));
     }
 
     /**
@@ -31,16 +32,18 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        $booking = Booking::find($request->booking_id);
+        $booking = Booking::findOrFail($request->booking_id);
 
-        Payment::create([
-            'booking_id'        => $request->booking_id,
-            'jumlah_bayar'      => $booking->total_harga,
+        $payment = Payment::create([
+            'booking_id' => $booking->id,
+            'jumlah_bayar' => $booking->total_harga,
             'metode_pembayaran' => $request->metode_pembayaran,
-            'status'            => 'pending',
+            'status' => 'pending',
         ]);
 
-        return redirect('/payments');
+        $booking->update(['status' => 'paid']);
+
+        return redirect('/payments/' . $payment->id);
     }
 
     /**
@@ -69,7 +72,7 @@ class PaymentController extends Controller
         $payment = Payment::findOrFail($id);
         $payment->update([
             'metode_pembayaran' => $request->metode_pembayaran,
-            'status'            => $request->status,
+            'status' => $request->status,
         ]);
 
         return redirect('/payments');
