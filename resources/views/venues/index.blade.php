@@ -5,6 +5,8 @@
 </head>
 <body>
     <h1>daftar Venue</h1>
+    <a href="{{ route('venues.index', ['sort' => 'asc']) }}">Kapasitas ↑</a>
+    <a href="{{ route('venues.index', ['sort' => 'desc']) }}">Kapasitas ↓</a>
     <a href="{{ route('venues.create') }}">tambah Venue</a>
 
     @if(session('success'))

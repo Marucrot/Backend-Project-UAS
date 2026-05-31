@@ -10,10 +10,12 @@ class VenueController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $venues = Venue::all();
-        return view('venues.index', compact('venues'));
+        $sort = $request->get('sort', 'asc');
+        $venues = Venue::orderBy('kapasitas', $sort)->get();
+        return view('venues.index', compact('venues', 'sort'));
+
     }
 
     /**
