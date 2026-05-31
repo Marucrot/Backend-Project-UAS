@@ -15,16 +15,21 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentDetailController;
 
+
+// Homepagenya
 Route::get('/', function () {
     return redirect()->route('home');
 });
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+
+// Ini riwayat pemesanannya 
 Route::get('/riwayat-pemesanan', [RiwayatController::class, 'index'])->name('riwayat.index');
 
+// bagian customer servicenya 
 Route::get('/customer-service', [CustomerServiceController::class, 'index'])->name('customer-service.index');
 
+// ini untuk pengguna yang dimana ada register login dan forgot passwordnya
 Route::get('/register', [PenggunaController::class, 'register'])->name('pengguna.register');
 Route::post('/register', [PenggunaController::class, 'prosesRegister'])->name('pengguna.prosesRegister');
 
@@ -34,12 +39,15 @@ Route::post('/login', [PenggunaController::class, 'prosesLogin'])->name('penggun
 Route::get('/forgot-password', [PenggunaController::class, 'forgotPassword'])->name('pengguna.forgotPassword');
 Route::post('/forgot-password', [PenggunaController::class, 'prosesForgotPassword'])->name('pengguna.prosesForgotPassword');
 
+// ada juga logoutnya 
 Route::post('/logout', [PenggunaController::class, 'logout'])->name('pengguna.logout');
+
+// ini untuk schedulenya di perbaru routerrnya
+Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
 Route::resource('tickets', TicketController::class);
 Route::resource('booking', BookingController::class);
 Route::resource('pengguna', PenggunaController::class);
-Route::resource('schedule', ScheduleController::class);
 Route::resource('customer-service', CustomerServiceController::class);
 Route::resource('concerts', ConcertController::class);
 Route::resource('artists', ArtistController::class);
@@ -47,5 +55,7 @@ Route::resource('venues', VenueController::class);
 Route::resource('reviews', ReviewController::class);
 Route::resource('payments', PaymentController::class);
 Route::resource('payment-details', PaymentDetailController::class);
+
+// ini untuk route yang payment detail
 Route::get('/payment-details/{payment_id}/show-by-payment', [PaymentDetailController::class, 'showByPayment']);
 ?>
