@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Review;
+use App\Models\Ticket;
+use App\Models\Booking;
 
 class ReviewController extends Controller
 {
@@ -20,7 +23,9 @@ class ReviewController extends Controller
      */
     public function create()
     {
-        $tickets = Ticket::all();
+        $userId = session('pengguna_id');
+        $bookings = Booking::where('user_id', $userId)->with('ticket')->get();
+        $tickets = $bookings->pluck('ticket');
         return view('reviews.create', compact('tickets'));
     }
 
@@ -31,12 +36,17 @@ class ReviewController extends Controller
     {
         $request->validate([
             'ticket_id'     => 'required|exists:tickets,id',
-            'nama_reviewer' => 'required',
             'rating'        => 'required|integer|min:1|max:5',
             'komentar'      => 'nullable',
         ]);
 
-        Review::create($request->all());
+        Review::create([
+            'ticket_id' => $request->ticket_id,
+            'nama_reviewer' => session('pengguna_nama'),
+            'rating' => $request->rating,
+            'komentar' => $request->komentar,
+        ]);
+
         return redirect()->route('reviews.index')->with('success', 'Review berhasil ditambahkan');
     }
 
