@@ -11,6 +11,7 @@ class Pengguna extends Model
         'gmail',
         'password',
         'nik',
+        'role',
     ];
     protected $hidden = [
         'password',
