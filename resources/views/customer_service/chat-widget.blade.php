@@ -1,31 +1,36 @@
 <style>
     .tombol-chat {
         position: fixed;
-        right: 20px;
-        bottom: 20px;
-        padding: 10px 15px;
-        border: 1px solid black;
-        background-color: white;
+        right: 22px;
+        bottom: 22px;
+        padding: 12px 18px;
+        border: 1px solid #1d2a45;
+        background: #ef4765;
+        color: white;
         cursor: pointer;
         z-index: 999;
+        border-radius: 14px;
+        font-weight: bold;
     }
 
     .kotak-chat {
         position: fixed;
-        right: 20px;
-        bottom: 70px;
-        width: 320px;
-        border: 1px solid black;
-        background-color: white;
+        right: 22px;
+        bottom: 78px;
+        width: 330px;
+        border: 1px solid #1d2a45;
+        background: white;
         display: none;
         z-index: 999;
         font-family: Arial, sans-serif;
+        border-radius: 14px;
+        overflow: hidden;
     }
 
     .judul-chat {
-        padding: 10px;
-        border-bottom: 1px solid black;
-        background-color: #eeeeee;
+        padding: 12px;
+        background: #1d2a45;
+        color: white;
         font-weight: bold;
     }
 
@@ -35,24 +40,25 @@
     }
 
     .isi-chat {
-        padding: 10px;
+        padding: 12px;
         max-height: 400px;
         overflow-y: auto;
     }
 
     .pesan-chat {
-        border: 1px solid #cccccc;
-        padding: 8px;
+        border: 1px solid #e5e7eb;
+        padding: 9px;
         margin-bottom: 8px;
         font-size: 14px;
+        border-radius: 10px;
     }
 
     .pesan-admin {
-        background-color: #f5f5f5;
+        background: #f8fafc;
     }
 
     .pesan-pengguna {
-        background-color: #ffffff;
+        background: #eef2ff;
         text-align: right;
     }
 
@@ -60,11 +66,16 @@
         display: block;
         width: 100%;
         margin-bottom: 7px;
-        padding: 7px;
-        border: 1px solid #999999;
-        background-color: white;
+        padding: 8px;
+        border: 1px solid #cbd5e1;
+        background: white;
         text-align: left;
         cursor: pointer;
+        border-radius: 9px;
+    }
+    
+    .tombol-pertanyaan:hover {
+        background: #f8fafc;
     }
 </style>
 
