@@ -17,6 +17,7 @@ return new class extends Migration
         $table->string('gmail')->unique();
         $table->string('password');
         $table->string('nik')->unique();
+        $table->string('role')->default('user');
         $table->rememberToken();
         $table->timestamps();
     });
