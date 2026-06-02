@@ -14,7 +14,6 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\VenueController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\PaymentDetailController;
 
 
 // Homepagenya
@@ -56,8 +55,4 @@ Route::resource('wishlist', WishlistController::class);
 Route::resource('venues', VenueController::class);
 Route::resource('reviews', ReviewController::class);
 Route::resource('payments', PaymentController::class);
-Route::resource('payment-details', PaymentDetailController::class);
-
-// ini untuk route yang payment detail
-Route::get('/payment-details/{payment_id}/show-by-payment', [PaymentDetailController::class, 'showByPayment']);
 ?>
