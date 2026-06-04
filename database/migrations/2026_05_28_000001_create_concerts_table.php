@@ -14,7 +14,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('poster_url')->nullable();
             $table->dateTime('event_date');
-            $table->enum('status', ['upcoming', 'ongoing', 'completed', 'cancelled'])->default('upcoming');
+            $table->enum('status', ['upcoming', 'ongoing', 'finished'])->default('upcoming');
             $table->timestamps();
         });
     }

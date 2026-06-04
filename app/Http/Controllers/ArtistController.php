@@ -34,7 +34,7 @@ class ArtistController extends Controller
             'name'      => 'required|string|max:255',
             'genre'     => 'nullable|string|max:100',
             'bio'       => 'nullable|string',
-            'photo_url' => 'nullable|url',
+            'photo_url' => 'nullable|string|max:255',
             'country'   => 'nullable|string|max:100',
         ]);
 
@@ -50,7 +50,7 @@ class ArtistController extends Controller
             'name'      => 'sometimes|string|max:255',
             'genre'     => 'sometimes|nullable|string|max:100',
             'bio'       => 'sometimes|nullable|string',
-            'photo_url' => 'sometimes|nullable|url',
+            'photo_url' => 'sometimes|nullable|string|max:255',
             'country'   => 'sometimes|nullable|string|max:100',
         ]);
 
