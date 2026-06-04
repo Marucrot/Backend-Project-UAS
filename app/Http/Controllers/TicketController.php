@@ -2,115 +2,150 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Concert;
 use App\Models\Ticket;
 use App\Models\Venue;
+use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    private function groupedConcerts()
+    private function isAdmin(): bool
     {
-        return Ticket::with('venue')
-            ->orderBy('tanggal_konser')
-            ->orderBy('jam_konser')
-            ->get()
-            ->groupBy(function ($ticket) {
-                return $ticket->nama_konser . '|' . $ticket->venue_id . '|' . $ticket->tanggal_konser . '|' . $ticket->jam_konser;
-            })
-            ->map(function ($group) {
-                $firstTicket = $group->sortBy('harga')->first();
-
-                $firstTicket->min_price = $group->min('harga');
-                $firstTicket->ticket_types = $group->sortBy('harga')->pluck('tipe_ticket')->implode(', ');
-                $firstTicket->total_stock = $group->sum('stock');
-
-                return $firstTicket;
-            })
-            ->values();
+        return session('pengguna_role') === 'admin';
     }
 
-    public function home()
+    private function guardAdmin()
     {
-        $tickets = $this->groupedConcerts();
+        if (!$this->isAdmin()) {
+            return redirect()->route('tickets.index')->with('error', 'Halaman buat, edit, dan hapus tiket hanya bisa diakses admin.');
+        }
 
-        return view('welcome', compact('tickets'));
+        return null;
     }
 
     public function index()
     {
-        $tickets = Ticket::with('venue')->orderBy('tanggal_konser')->get();
+        $tickets = Ticket::with(['concert.artists', 'venue'])
+            ->orderBy('tanggal_konser')
+            ->orderBy('jam_konser')
+            ->orderBy('harga')
+            ->get();
 
         return view('tickets.index', compact('tickets'));
     }
 
     public function create()
     {
+        if ($redirect = $this->guardAdmin()) {
+            return $redirect;
+        }
 
-        $venues = Venue::all();
+        $concerts = Concert::with('artists')->orderBy('event_date')->get();
+        $venues = Venue::orderBy('nama_venue')->get();
 
-        return view('tickets.create', compact('venues'));
+        return view('tickets.create', compact('concerts', 'venues'));
     }
 
     public function store(Request $request)
     {
-        Ticket::create([
-            'nama_konser' => $request->nama_konser,
-            'nama_artis' => $request->nama_artis,
-            'venue_id' => $request->venue_id,
-            'tanggal_konser' => $request->tanggal_konser,
-            'jam_konser' => $request->jam_konser,
-            'harga' => $request->harga,
-            'stock' => $request->stock,
-            'tipe_ticket' => $request->tipe_ticket,
+        if ($redirect = $this->guardAdmin()) {
+            return $redirect;
+        }
+
+        $validated = $request->validate([
+            'concert_id' => 'required|exists:concerts,id',
+            'venue_id' => 'required|exists:venues,id',
+            'tanggal_konser' => 'required|date',
+            'jam_konser' => 'required',
+            'harga' => 'required|integer|min:0',
+            'stock' => 'required|integer|min:0',
+            'tipe_ticket' => 'required|in:Regular,VIP',
         ]);
 
-        return redirect()->route('tickets.index')->with('success', 'Data konser berhasil ditambahkan.');
+        $concert = Concert::with('artists')->findOrFail($validated['concert_id']);
+
+        Ticket::create([
+            'concert_id' => $concert->id,
+            'nama_konser' => $concert->name,
+            'nama_artis' => $concert->artists->pluck('name')->implode(', '),
+            'venue_id' => $validated['venue_id'],
+            'tanggal_konser' => $validated['tanggal_konser'],
+            'jam_konser' => $validated['jam_konser'],
+            'harga' => $validated['harga'],
+            'stock' => $validated['stock'],
+            'tipe_ticket' => $validated['tipe_ticket'],
+        ]);
+
+        return redirect()->route('tickets.index')->with('success', 'Tiket berhasil dibuat dari data konser.');
     }
 
     public function show(Ticket $ticket)
     {
-        $tickets = Ticket::with('venue')
-            ->where('nama_konser', $ticket->nama_konser)
+        $ticket->load(['concert.artists', 'venue']);
+
+        $relatedTickets = Ticket::with(['concert.artists', 'venue'])
+            ->where('concert_id', $ticket->concert_id)
             ->where('venue_id', $ticket->venue_id)
-            ->where('tanggal_konser', $ticket->tanggal_konser)
-            ->where('jam_konser', $ticket->jam_konser)
             ->orderBy('harga')
             ->get();
 
-        return view('tickets.show', compact('ticket', 'tickets'));
+        return view('tickets.show', compact('ticket', 'relatedTickets'));
     }
 
-    public function edit(string $id)
+    public function edit(Ticket $ticket)
     {
-        $ticket = Ticket::findOrFail($id);
-        $venues = Venue::all();
+        if ($redirect = $this->guardAdmin()) {
+            return $redirect;
+        }
 
-        return view('tickets.edit', compact('ticket', 'venues'));
+        $concerts = Concert::with('artists')->orderBy('event_date')->get();
+        $venues = Venue::orderBy('nama_venue')->get();
+        $ticket->load(['concert.artists', 'venue']);
+
+        return view('tickets.edit', compact('ticket', 'concerts', 'venues'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Ticket $ticket)
     {
-        $ticket = Ticket::findOrFail($id);
+        if ($redirect = $this->guardAdmin()) {
+            return $redirect;
+        }
 
-        $ticket->update([
-            'nama_konser' => $request->nama_konser,
-            'nama_artis' => $request->nama_artis,
-            'venue_id' => $request->venue_id,
-            'tanggal_konser' => $request->tanggal_konser,
-            'jam_konser' => $request->jam_konser,
-            'harga' => $request->harga,
-            'stock' => $request->stock,
-            'tipe_ticket' => $request->tipe_ticket,
+        $validated = $request->validate([
+            'concert_id' => 'required|exists:concerts,id',
+            'venue_id' => 'required|exists:venues,id',
+            'tanggal_konser' => 'required|date',
+            'jam_konser' => 'required',
+            'harga' => 'required|integer|min:0',
+            'stock' => 'required|integer|min:0',
+            'tipe_ticket' => 'required|in:Regular,VIP',
         ]);
 
-        return redirect()->route('tickets.index')->with('success', 'Data konser berhasil diubah.');
+        $concert = Concert::with('artists')->findOrFail($validated['concert_id']);
+
+        $ticket->update([
+            'concert_id' => $concert->id,
+            'nama_konser' => $concert->name,
+            'nama_artis' => $concert->artists->pluck('name')->implode(', '),
+            'venue_id' => $validated['venue_id'],
+            'tanggal_konser' => $validated['tanggal_konser'],
+            'jam_konser' => $validated['jam_konser'],
+            'harga' => $validated['harga'],
+            'stock' => $validated['stock'],
+            'tipe_ticket' => $validated['tipe_ticket'],
+        ]);
+
+        return redirect()->route('tickets.index')->with('success', 'Tiket berhasil diperbarui.');
     }
 
-    public function destroy(string $id)
+    public function destroy(Ticket $ticket)
     {
-        $ticket = Ticket::findOrFail($id);
+        if ($redirect = $this->guardAdmin()) {
+            return $redirect;
+        }
+
         $ticket->delete();
 
-        return redirect()->route('tickets.index')->with('success', 'Data konser berhasil dihapus.');
+        return redirect()->route('tickets.index')->with('success', 'Tiket berhasil dihapus.');
     }
 }
