@@ -14,6 +14,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\VenueController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\GalleryController;
 
 
 // Homepagenya
@@ -55,4 +56,5 @@ Route::resource('wishlist', WishlistController::class);
 Route::resource('venues', VenueController::class);
 Route::resource('reviews', ReviewController::class);
 Route::resource('payments', PaymentController::class);
+Route::resource('galleries', GalleryController::class);
 ?>
