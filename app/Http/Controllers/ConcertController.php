@@ -25,8 +25,8 @@ class ConcertController extends Controller
             'name'       => 'required|string|max:255',
             'event_date' => 'required|date',
             'description'=> 'nullable|string',
-            'poster_url' => 'nullable|url',
-            'status'     => 'in:upcoming,ongoing,completed,cancelled',
+            'poster_url' => 'nullable|string|max:255',
+            'status'     => 'in:upcoming,ongoing,finished',
         ]);
 
         $concert = Concert::create($request->all());
@@ -41,8 +41,8 @@ class ConcertController extends Controller
             'name'        => 'sometimes|string|max:255',
             'event_date'  => 'sometimes|date',
             'description' => 'sometimes|nullable|string',
-            'poster_url'  => 'sometimes|nullable|url',
-            'status'      => 'sometimes|in:upcoming,ongoing,completed,cancelled',
+            'poster_url'  => 'sometimes|nullable|string|max:255',
+            'status'      => 'sometimes|in:upcoming,ongoing,finished',
         ]);
 
         $concert->update($request->all());
