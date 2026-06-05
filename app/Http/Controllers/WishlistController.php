@@ -23,6 +23,24 @@ class WishlistController extends Controller
 
     public function store(Request $request)
     {
+    if (!session('pengguna_id')) {
+            return redirect()->route('pengguna.login');
+        }
+
+        $request->validate([
+            'concert_id' => 'required|exists:concerts,id',
+        ]);
+
+        Wishlist::firstOrCreate([
+            'pengguna_id' => session('pengguna_id'),
+            'concert_id' => $request->concert_id,
+        ]);
+
+        return redirect()->back()->with('success', 'Konser berhasil ditambahkan ke wishlist.');
+    }
+    
+    public function destroy($id)
+    {
 
     }
 }
