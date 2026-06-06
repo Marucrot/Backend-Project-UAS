@@ -1,24 +1,54 @@
-<h1>Forgot Password</h1>
+@extends('layouts.app')
 
-@if (session('error'))
-    <p style="color: red;">{{ session('error') }}</p>
-@endif
+@section('title', 'Forgot Password')
+@section('hide_nav', true)
 
-<form action="{{ route('pengguna.prosesForgotPassword') }}" method="POST">
-    @csrf
+@section('content')
+<div class="auth-page">
+    <div style="position:absolute;top:22px;left:26px;z-index:3;display:flex;align-items:center;gap:16px;">
+        <a href="{{ route('home') }}">
+            <img src="{{ asset('resource/image/logo-beatmeet.png') }}" alt="BeatMeet" style="width:75px;border-radius:10px;background:#fff6df;">
+        </a>
+    </div>
 
-    <label>Gmail</label><br>
-    <input type="email" name="gmail" required><br><br>
+    <div class="auth-card">
+        <p class="welcome">RESET PASSWORD</p>
+        <h1>BEATMEET</h1>
+        <p class="auth-note">Masukkan email dan NIK untuk mengganti password.</p>
 
-    <label>NIK</label><br>
-    <input type="text" name="nik" required><br><br>
+        <form action="{{ route('pengguna.prosesForgotPassword') }}" method="POST">
+            @csrf
 
-    <label>Password Baru</label><br>
-    <input type="password" name="password" required><br><br>
+            <div class="field">
+                <input type="email" name="gmail" value="{{ old('gmail') }}" placeholder="Email" required>
+            </div>
 
-    <button type="submit">Ubah Password</button>
-</form>
+            <div class="field">
+                <input type="text" name="nik" value="{{ old('nik') }}" placeholder="NIK" required>
+            </div>
 
-<br>
+            <div class="field">
+                <input type="password" name="password" placeholder="Password Baru" required>
+            </div>
 
-<a href="{{ route('pengguna.login') }}">Kembali ke Login</a>
+            <div class="auth-submit">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+        <div class="auth-links">
+            <a href="{{ route('pengguna.login') }}">Kembali</a>
+            <a href="{{ route('pengguna.register') }}">Buat Akun Baru</a>
+        </div>
+    </div>
+
+    <div class="disc-row">
+        <div class="disc"></div>
+        <div class="disc"></div>
+        <div class="disc"></div>
+        <div class="disc"></div>
+        <div class="disc"></div>
+        <div class="disc"></div>
+    </div>
+</div>
+@endsection
