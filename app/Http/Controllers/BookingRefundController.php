@@ -123,30 +123,6 @@ class BookingRefundController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(BookingRefund $bookingRefund)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(BookingRefund $bookingRefund)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, BookingRefund $bookingRefund)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
